@@ -1,0 +1,4 @@
+name: EliteFactions
+version: '${project.version}'
+main: dev.mrshawn.elitefactions.EliteFactions
+api-version: '1.20'
