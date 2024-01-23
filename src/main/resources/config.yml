@@ -1,0 +1,13 @@
+factions:
+  power:
+    # power per player
+    per-player: 10.0
+    # minimum power a player can have
+    min: -5.0
+    regen:
+      # whether to enable power regen
+      enabled: true
+      # how much power to regen per interval
+      amount: 0.5
+      # delay in minutes between each power regen
+      interval: 10

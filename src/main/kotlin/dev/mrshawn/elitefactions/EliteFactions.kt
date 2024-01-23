@@ -1,7 +1,8 @@
 package dev.mrshawn.elitefactions
 
 import dev.mrshawn.elitefactions.commands.FactionCommandManager
-import dev.mrshawn.elitefactions.commands.impl.FactionHelpCMD
+import dev.mrshawn.elitefactions.commands.impl.factions.BaseCMD
+import dev.mrshawn.elitefactions.engine.factions.FactionManager
 import dev.mrshawn.mlib.chat.Chat
 import dev.mrshawn.mlib.selections.Selection
 import dev.mrshawn.mlib.utilities.events.EventUtils
@@ -33,7 +34,9 @@ class EliteFactions: JavaPlugin() {
 	private fun registerCommands() {
 		val fcm = FactionCommandManager()
 
-		fcm.registerCommand(FactionHelpCMD())
+		fcm.registerCommand(BaseCMD())
+
+		fcm.registerCompletion("@factions") { FactionManager.getFactionNames() }
 	}
 
 	private fun registerListeners() {

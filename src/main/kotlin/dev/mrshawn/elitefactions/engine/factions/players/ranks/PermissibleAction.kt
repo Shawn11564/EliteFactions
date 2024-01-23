@@ -4,6 +4,7 @@ enum class PermissibleAction(
 	val displayName: String
 ) {
 
+	ALL("all"),
 	DISBAND("disband"),
 	INVITE("invite"),
 	KICK("kick"),

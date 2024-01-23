@@ -1,35 +1,37 @@
 package dev.mrshawn.elitefactions.engine.factions.players.ranks
 
-import org.bukkit.ChatColor
-
-abstract class Rank(
-	private var name: String,
-	private var color: ChatColor,
-	private var permissions: ArrayList<PermissibleAction>
+enum class Rank(
+	private val displayName: String,
+	private val defaultPermissions: List<PermissibleAction>
 ) {
 
-	fun hasPermission(action: PermissibleAction): Boolean {
-		return permissions.contains(action)
-	}
+	LEADER("Leader", listOf(
+		PermissibleAction.ALL
+	)),
+	COLEADER("Co-Leader", listOf(
+		PermissibleAction.INVITE,
+		PermissibleAction.KICK,
+		PermissibleAction.OPEN,
+		PermissibleAction.PROMOTE,
+		PermissibleAction.DEMOTE,
+		PermissibleAction.CLAIM,
+		PermissibleAction.UNCLAIM
+	)),
+	OFFICER("Officer", listOf(
+		PermissibleAction.INVITE,
+		PermissibleAction.KICK,
+		PermissibleAction.CLAIM,
+		PermissibleAction.UNCLAIM
+	)),
+	MEMBER("Member", emptyList()),
+	GUEST("Guest", emptyList());
 
-	fun getName(): String {
+	fun getDisplayName(): String {
 		return name
 	}
 
-	fun getColor(): ChatColor {
-		return color
-	}
-
-	fun getPermissions(): List<PermissibleAction> {
-		return permissions
-	}
-
-	fun addPermission(action: PermissibleAction) {
-		permissions.add(action)
-	}
-
-	fun removePermission(action: PermissibleAction) {
-		permissions.remove(action)
+	fun getDefaultPermissions(): List<PermissibleAction> {
+		return defaultPermissions
 	}
 
 }

@@ -1,0 +1,53 @@
+factions:
+  default-description: "&aDefault faction description!"
+  permissions:
+    no-permission: "&cFaction {0} does not allow you to do that!"
+  alerts:
+    faction-disbanded: "&eYour faction has been disbanded by {0}!"
+commands:
+  messages:
+    help:
+      - "&7&m-----------&r &bEliteFactions &7&m-----------"
+      - "&b/f create <name> &7- Create a faction"
+      - "&b/f disband &7- Disband your faction"
+      - "&b/f invite <player> &7- Invite a player to your faction"
+    faction-info:
+      - "&7&m-----------&r &b{0} &7&m-----------"
+      - "&bDescription: &7{1}"
+      - "&bLeader: &7{2}"
+      - "&bMembers: &7{3}/{4}"
+      - "&bMembers Online: &7{5}"
+      - "&7&m---------------------------------"
+      - "&bPower: &7{6}/{7}"
+    create: "&aYou have created a faction named &b{0}&a!"
+    disband: "&aYou have disbanded your faction!"
+    top:
+      list:
+        - "&7&m-----------&r &bTop Factions &7&m-----------"
+        - "{0}"
+        - "{1}"
+        - "{2}"
+        - "{3}"
+        - "{4}"
+        - "{5}"
+        - "{6}"
+        - "{7}"
+        - "{8}"
+        - "{9}"
+        - "&7&m---------------------------------"
+      entry: "&b{0}: Power- &7{1}/{2}"
+  usage:
+    create: "&cUsage: /f create <name>"
+    disband: "&cUsage: /f disband"
+    info: "&cUsage: /f info <faction>"
+  error:
+    faction-doesnt-exist: "&cA faction with the name {0} does not exist!"
+    faction-already-exists: "&cA faction with that name already exists!"
+    not-in-faction: "&cYou are not in a faction!"
+preconditions:
+  success: "&aSuccess!"
+  error:
+    no-permission: "&cYou do not have permission to execute this command!"
+    not-player: "&cYou must be a player to execute this command!"
+    in-faction: "&cYou must leave your faction to execute this command!"
+    not-in-faction: "&cYou must be in a faction to execute this command!"
