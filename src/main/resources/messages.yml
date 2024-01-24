@@ -14,6 +14,8 @@ factions:
     no-permission: "&cFaction {0} does not allow you to do that!"
   alerts:
     faction-disbanded: "&eYour faction has been disbanded by {0}!"
+    faction-renamed: "&eYour faction has been renamed to {0} by {1}!"
+    description-changed: "&eYour faction description has been changed by {0}!"
 commands:
   messages:
     help:
@@ -54,6 +56,8 @@ commands:
   usage:
     create: "&cUsage: /f create <name>"
     disband: "&cUsage: /f disband"
+    rename: "&cUsage: /f rename <name>"
+    description: "&cUsage: /f description <description>"
     info: "&cUsage: /f info <faction>"
     who: "&cUsage: /f who <player>"
   error:

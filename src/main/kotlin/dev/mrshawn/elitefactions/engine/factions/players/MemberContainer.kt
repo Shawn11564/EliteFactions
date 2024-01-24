@@ -16,6 +16,10 @@ class MemberContainer {
 		return members.contains(uuid)
 	}
 
+	fun isMember(fPlayer: FPlayer): Boolean {
+		return members.contains(fPlayer.getUUID())
+	}
+
 	fun addMember(uuid: UUID, rank: Rank) {
 		members[uuid] = rank
 	}

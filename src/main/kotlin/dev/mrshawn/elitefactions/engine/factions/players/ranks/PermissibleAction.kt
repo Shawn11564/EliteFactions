@@ -12,6 +12,7 @@ enum class PermissibleAction(
 	PROMOTE("promote"),
 	DEMOTE("demote"),
 	RENAME("rename"),
+	CHANGE_DESCRIPTION("change description"),
 	CLAIM("claim"),
 	UNCLAIM("unclaim");
 

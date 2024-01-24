@@ -25,6 +25,8 @@ enum class EMessages(
 	FACTIONS_PERMISSIONS_NO_PERMISSION("factions.permissions.no-permission"),
 
 	FACTIONS_ALERTS_FACTION_DISBANDED("factions.alerts.faction-disbanded"),
+	FACTIONS_ALERTS_FACTION_RENAMED("factions.alerts.faction-renamed"),
+	FACTIONS_ALERTS_DESCRIPTION_CHANGED("factions.alerts.description-changed"),
 
 	CMD_HELP_MESSAGE("commands.messages.help"),
 	CMD_FACTION_INFO_MESSAGE("commands.messages.faction-info"),
@@ -38,6 +40,8 @@ enum class EMessages(
 	CMD_DISBAND_USAGE("commands.usage.disband"),
 	CMD_INFO_USAGE("commands.usage.info"),
 	CMD_WHO_USAGE("commands.usage.who"),
+	CMD_RENAME_USAGE("commands.usage.rename"),
+	CMD_DESCRIPTION_USAGE("commands.usage.description"),
 
 	CMD_ERROR_FACTION_DOESNT_EXIST("commands.error.faction-doesnt-exist"),
 	CMD_ERROR_FACTION_ALREADY_EXISTS("commands.error.faction-already-exists"),

@@ -20,6 +20,15 @@ class Faction(
 	private val rankContainer: RankContainer
 ) {
 
+	fun rename(name: String) {
+		this.name = name
+		FactionManager.updateName(this, name)
+	}
+
+	fun changeDescription(description: String) {
+		this.description = description
+	}
+
 	fun isServerFaction(): Boolean {
 		return     id == ServerFactions.SAFEZONE_UUID
 				|| id == ServerFactions.WARZONE_UUID

@@ -11,22 +11,29 @@ import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.mlib.chat.Chat
 import org.bukkit.entity.Player
 
-@CommandAlias("disband")
-class DisbandCMD: FactionCommand(
+@CommandAlias("rename")
+class RenameCMD: FactionCommand(
 	Preconditions.Builder()
-		.hasPermission("elitefactions.commands.disband")
-		.hasPermissible(PermissibleAction.DISBAND)
+		.hasPermission("elitefactions.commands.rename")
+		.hasPermissible(PermissibleAction.RENAME)
 		.hasFaction(true)
 		.build()
 ) {
 
 	override fun execute(sender: Player, args: Array<String>) {
-		val fPlayer = FPlayer.get(sender)
-		val faction = fPlayer.getFaction()
+		if (args.isEmpty()) {
+			Chat.tell(sender, EMessages.CMD_RENAME_USAGE)
+			return
+		}
 
-		Chat.tell(faction, EMessages.FACTIONS_ALERTS_FACTION_DISBANDED, sender.name)
-		FactionManager.disbandFaction(faction)
-		Chat.tell(sender, EMessages.CMD_DISBAND_MESSAGE)
+		if (FactionManager.isFaction(args[0])) {
+			Chat.tell(sender, EMessages.CMD_ERROR_FACTION_ALREADY_EXISTS)
+			return
+		}
+
+		val faction = FPlayer.get(sender).getFaction()
+		faction.rename(args[0])
+		Chat.tell(faction, EMessages.FACTIONS_ALERTS_FACTION_RENAMED, args[0], sender.name)
 	}
 
 }

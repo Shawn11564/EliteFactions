@@ -19,7 +19,9 @@ class BaseCMD: FactionCommand(
 			CreateCMD(),
 			DisbandCMD(),
 			TopCMD(),
-			WhoCMD()
+			WhoCMD(),
+			RenameCMD(),
+			DescriptionCMD()
 		)
 	}
 

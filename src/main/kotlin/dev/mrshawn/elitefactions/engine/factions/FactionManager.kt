@@ -8,6 +8,11 @@ object FactionManager {
 	private val factions = HashMap<UUID, Faction>()
 	private val factionNameMap = HashMap<String, Faction>()
 
+	fun updateName(faction: Faction, name: String) {
+		factionNameMap.remove(faction.getName())
+		factionNameMap[name] = faction
+	}
+
 	fun disbandFaction(faction: Faction) {
 		faction.getMemberContainer().getMembers().forEach { member ->
 			val fPlayer = FPlayer.get(member)

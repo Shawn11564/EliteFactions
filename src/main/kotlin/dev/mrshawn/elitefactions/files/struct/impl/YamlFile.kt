@@ -67,7 +67,10 @@ open class YamlFile(
 			}
 		}
 
-		if (changed) reload()
+		if (changed) {
+			save()
+			reload()
+		}
 	}
 
 }
