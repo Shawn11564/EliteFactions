@@ -15,6 +15,12 @@ enum class EMessages(
 ): PathEnum {
 
 	FACTIONS_DEFAULT_DESCRIPTION("factions.default-description"),
+	FACTIONS_SAFEZONE_NAME("factions.server-factions.safezone.name"),
+	FACTIONS_SAFEZONE_DESCRIPTION("factions.server-factions.safezone.description"),
+	FACTIONS_WARZONE_NAME("factions.server-factions.warzone.name"),
+	FACTIONS_WARZONE_DESCRIPTION("factions.server-factions.warzone.description"),
+	FACTIONS_WILDERNESS_NAME("factions.server-factions.wilderness.name"),
+	FACTIONS_WILDERNESS_DESCRIPTION("factions.server-factions.wilderness.description"),
 
 	FACTIONS_PERMISSIONS_NO_PERMISSION("factions.permissions.no-permission"),
 
@@ -22,6 +28,7 @@ enum class EMessages(
 
 	CMD_HELP_MESSAGE("commands.messages.help"),
 	CMD_FACTION_INFO_MESSAGE("commands.messages.faction-info"),
+	CMD_SERVER_FACTION_INFO_MESSAGE("commands.messages.server-faction-info"),
 	CMD_CREATE_MESSAGE("commands.messages.create"),
 	CMD_DISBAND_MESSAGE("commands.messages.disband"),
 	CMD_TOP_MESSAGE_LIST("commands.messages.top.list"),
@@ -30,10 +37,13 @@ enum class EMessages(
 	CMD_CREATE_USAGE("commands.usage.create"),
 	CMD_DISBAND_USAGE("commands.usage.disband"),
 	CMD_INFO_USAGE("commands.usage.info"),
+	CMD_WHO_USAGE("commands.usage.who"),
 
 	CMD_ERROR_FACTION_DOESNT_EXIST("commands.error.faction-doesnt-exist"),
 	CMD_ERROR_FACTION_ALREADY_EXISTS("commands.error.faction-already-exists"),
 	CMD_ERROR_NOT_IN_FACTION("commands.error.not-in-faction"),
+
+	CMD_ADMIN_RELOAD_MESSAGE("commands.admin.messages.reload"),
 
 	PRECONDITIONS_SUCCESS("preconditions.success"),
 	PRECONDITIONS_ERROR_NO_PERMISSION("preconditions.error.no-permission"),

@@ -10,7 +10,6 @@ import dev.mrshawn.elitefactions.extensions.tell
 import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.mlib.chat.Chat
 import org.bukkit.entity.Player
-import java.util.*
 
 @CommandAlias("create")
 class CreateCMD: FactionCommand(
@@ -34,7 +33,6 @@ class CreateCMD: FactionCommand(
 
 		val faction = Faction.Factory()
 			.creator(FPlayer.get(sender))
-			.id(UUID.randomUUID())
 			.name(args[0])
 			.build()
 

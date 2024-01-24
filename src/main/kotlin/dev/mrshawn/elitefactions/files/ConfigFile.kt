@@ -15,10 +15,13 @@ enum class CValues(
 ): PathEnum {
 
 	FACTION_POWER_PER_PLAYER("factions.power.per-player"),
+	FACTION_POWER_STARTING("factions.power.starting"),
 	FACTION_POWER_MIN("factions.power.min"),
 	FACTION_POWER_REGEN_ENABLED("factions.power.regen.enabled"),
 	FACTION_POWER_REGEN_AMOUNT("factions.power.regen.amount"),
-	FACTION_POWER_REGEN_INTERVAL("factions.power.regen.interval");
+	FACTION_POWER_REGEN_INTERVAL("factions.power.regen.interval"),
+
+	FACTION_TOP_TRIM_EMPTY("factions.top.trim-empty");
 
 	override fun getPath(): String {
 		return path

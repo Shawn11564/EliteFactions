@@ -1,6 +1,9 @@
 package dev.mrshawn.elitefactions.engine.factions.players
 
 import dev.mrshawn.elitefactions.engine.factions.Faction
+import dev.mrshawn.elitefactions.engine.factions.server.factions.ServerFactions
+import dev.mrshawn.elitefactions.files.CValues
+import dev.mrshawn.elitefactions.files.ConfigFile
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -11,7 +14,7 @@ class FPlayer private constructor(
 ) {
 
 	private var cachedPlayer: Player? = null
-	private var power: Double = 0.0
+	private var power: Double = ConfigFile.getDouble(CValues.FACTION_POWER_STARTING) ?: 10.0
 	private var faction: Faction? = null
 
 	init {
@@ -52,8 +55,8 @@ class FPlayer private constructor(
 
 	}
 
-	fun getFaction(): Faction? {
-		return faction
+	fun getFaction(): Faction {
+		return faction ?: ServerFactions.WILDERNESS
 	}
 
 	fun setFaction(faction: Faction?) {

@@ -28,12 +28,12 @@ class Preconditions private constructor(builder: Builder) {
 		if (hasFaction) {
 			if (sender !is Player) return false to EMessages.PRECONDITIONS_ERROR_NOT_PLAYER
 			if (cachedFPlayer == null) cachedFPlayer = FPlayer.get(sender.uniqueId)
-			if (cachedFPlayer.getFaction() == null) return false to EMessages.PRECONDITIONS_ERROR_NOT_IN_FACTION
+			if (cachedFPlayer.getFaction().isServerFaction()) return false to EMessages.PRECONDITIONS_ERROR_NOT_IN_FACTION
 		}
 		if (notInFaction) {
 			if (sender !is Player) return false to EMessages.PRECONDITIONS_ERROR_NOT_PLAYER
 			if (cachedFPlayer == null) cachedFPlayer = FPlayer.get(sender.uniqueId)
-			if (cachedFPlayer.getFaction() != null) return false to EMessages.PRECONDITIONS_ERROR_IN_FACTION
+			if (!cachedFPlayer.getFaction().isServerFaction()) return false to EMessages.PRECONDITIONS_ERROR_IN_FACTION
 		}
 
 		return true to EMessages.PRECONDITIONS_SUCCESS

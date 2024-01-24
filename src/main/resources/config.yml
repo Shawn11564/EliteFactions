@@ -2,6 +2,8 @@ factions:
   power:
     # power per player
     per-player: 10.0
+    # starting power for a player
+    starting: 10.0
     # minimum power a player can have
     min: -5.0
     regen:
@@ -11,3 +13,6 @@ factions:
       amount: 0.5
       # delay in minutes between each power regen
       interval: 10
+  top:
+    # Should we trim empty lines in the f top list? (i.e less than 10 factions exist)
+    trim-empty: true

@@ -1,5 +1,15 @@
 factions:
   default-description: "&aDefault faction description!"
+  server-factions:
+    safezone:
+      name: "&6Safezone"
+      description: "&6Safezone- Free from PvP and Monsters!"
+    warzone:
+      name: "&4Warzone"
+      description: "&4Warzone- Prepare for battle!"
+    wilderness:
+      name: "&2Wilderness"
+      description: "&2Wilderness- Anything goes!"
   permissions:
     no-permission: "&cFaction {0} does not allow you to do that!"
   alerts:
@@ -13,12 +23,17 @@ commands:
       - "&b/f invite <player> &7- Invite a player to your faction"
     faction-info:
       - "&7&m-----------&r &b{0} &7&m-----------"
-      - "&bDescription: &7{1}"
+      - "&7{1}"
+      - "&7&m---------------------------------"
       - "&bLeader: &7{2}"
       - "&bMembers: &7{3}/{4}"
       - "&bMembers Online: &7{5}"
       - "&7&m---------------------------------"
       - "&bPower: &7{6}/{7}"
+    server-faction-info:
+      - "&7&m-----------&r &b{0} &7&m-----------"
+      - "&b{1}"
+      - "&7&m---------------------------------"
     create: "&aYou have created a faction named &b{0}&a!"
     disband: "&aYou have disbanded your faction!"
     top:
@@ -40,10 +55,14 @@ commands:
     create: "&cUsage: /f create <name>"
     disband: "&cUsage: /f disband"
     info: "&cUsage: /f info <faction>"
+    who: "&cUsage: /f who <player>"
   error:
     faction-doesnt-exist: "&cA faction with the name {0} does not exist!"
     faction-already-exists: "&cA faction with that name already exists!"
     not-in-faction: "&cYou are not in a faction!"
+  admin:
+    messages:
+      reload: "&aSuccessfully reloaded config.yml and messages.yml"
 preconditions:
   success: "&aSuccess!"
   error:

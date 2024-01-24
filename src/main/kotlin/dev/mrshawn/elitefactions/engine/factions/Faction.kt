@@ -4,6 +4,7 @@ import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.engine.factions.players.MemberContainer
 import dev.mrshawn.elitefactions.engine.factions.players.ranks.Rank
 import dev.mrshawn.elitefactions.engine.factions.players.ranks.RankContainer
+import dev.mrshawn.elitefactions.engine.factions.server.factions.ServerFactions
 import dev.mrshawn.elitefactions.files.CValues
 import dev.mrshawn.elitefactions.files.ConfigFile
 import dev.mrshawn.elitefactions.files.EMessages
@@ -18,6 +19,12 @@ class Faction(
 	private val memberContainer: MemberContainer,
 	private val rankContainer: RankContainer
 ) {
+
+	fun isServerFaction(): Boolean {
+		return     id == ServerFactions.SAFEZONE_UUID
+				|| id == ServerFactions.WARZONE_UUID
+				|| id == ServerFactions.WILDERNESS_UUID
+	}
 
 	fun getId(): UUID {
 		return id
@@ -58,9 +65,9 @@ class Faction(
 		fun name(name: String) = apply { this.name = name }
 
 		fun build(register: Boolean = true): Faction? {
-			if (id == null || name == null) return null
+			if (name == null) return null
 			val faction = Faction(
-				id!!,
+				id ?: UUID.randomUUID(),
 				name!!,
 				MessagesFile.getString(EMessages.FACTIONS_DEFAULT_DESCRIPTION)!!,
 				creator!!.getPower(),

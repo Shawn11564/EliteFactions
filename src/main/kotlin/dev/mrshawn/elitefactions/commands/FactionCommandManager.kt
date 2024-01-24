@@ -18,6 +18,11 @@ class FactionCommandManager: TabExecutor {
 	private val commands = HashMap<List<String>, FactionCommand>()
 	private val commandCompletions: HashMap<String, (CommandSender) -> Collection<String>> = HashMap()
 
+	init {
+		// default completions
+		registerCompletion("@players") { Bukkit.getOnlinePlayers().map { it.name } }
+	}
+
 	fun registerCommand(command: FactionCommand) {
 		if (command.getAliases().isEmpty()) {
 			Chat.error("Command ${command.javaClass.simpleName} does not have a CommandAliases annotation or has no aliases specified!")

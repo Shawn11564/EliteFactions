@@ -6,6 +6,8 @@ import dev.mrshawn.elitefactions.commands.conditions.Preconditions
 import dev.mrshawn.elitefactions.engine.factions.Faction
 import dev.mrshawn.elitefactions.engine.factions.FactionManager
 import dev.mrshawn.elitefactions.extensions.doReplacements
+import dev.mrshawn.elitefactions.files.CValues
+import dev.mrshawn.elitefactions.files.ConfigFile
 import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.elitefactions.files.MessagesFile
 import dev.mrshawn.mlib.chat.Chat
@@ -21,17 +23,26 @@ class TopCMD: FactionCommand(
 
 		val listMessage = MessagesFile.get(EMessages.CMD_TOP_MESSAGE_LIST) as List<*>
 		listMessage.forEach { line ->
-			val lineString = line.toString()
+			var lineString = line.toString()
+			val originalLine = lineString
+			val pattern = "\\{(\\d+)}".toPattern()
+			val matcher = pattern.matcher(lineString)
+			var foundMatch = false
+
 			// replace all instances of {n} with faction at index n from topFactions
-			lineString.replace(Regex("\\{\\d+}")) {
-				val index = it.value.replace("{", "").replace("}", "").toInt()
+			while (matcher.find()) {
+				foundMatch = true
+				val index = matcher.group(1).toInt()
 				if (index < topFactions.size) {
-					getEntryForFaction(topFactions[index])
-				} else {
-					"null"
+					val faction = topFactions[index]
+					val replacement = getEntryForFaction(faction)
+					lineString = lineString.replace("{${index}}", replacement)
 				}
 			}
-			Chat.tell(sender, lineString)
+
+			if (lineString != originalLine && ConfigFile.getBoolean(CValues.FACTION_TOP_TRIM_EMPTY) != false || !foundMatch) {
+				Chat.tell(sender, lineString)
+			}
 		}
 	}
 

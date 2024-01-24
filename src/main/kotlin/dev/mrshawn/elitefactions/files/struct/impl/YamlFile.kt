@@ -8,7 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 
 open class YamlFile(
-	private val javaFile: File,
+	private var javaFile: File,
 	isResource: Boolean = false
 ): EFile {
 
@@ -47,7 +47,6 @@ open class YamlFile(
 	}
 
 	override fun reload() {
-		save()
 		configuration = YamlConfiguration.loadConfiguration(javaFile)
 	}
 
