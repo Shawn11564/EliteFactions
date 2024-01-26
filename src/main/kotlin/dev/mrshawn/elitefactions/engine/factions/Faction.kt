@@ -16,6 +16,7 @@ class Faction(
 	private var name: String,
 	private var description: String,
 	private var power: Double,
+	private var isOpen: Boolean = false,
 	private val memberContainer: MemberContainer,
 	private val rankContainer: RankContainer
 ) {
@@ -55,6 +56,14 @@ class Faction(
 		return memberContainer.getMembers().size * ConfigFile.getDouble(CValues.FACTION_POWER_PER_PLAYER)!!
 	}
 
+	fun setOpen(isOpen: Boolean) {
+		this.isOpen = isOpen
+	}
+
+	fun isOpen(): Boolean {
+		return isOpen
+	}
+
 	fun getMemberContainer(): MemberContainer {
 		return memberContainer
 	}
@@ -80,6 +89,7 @@ class Faction(
 				name!!,
 				MessagesFile.getString(EMessages.FACTIONS_DEFAULT_DESCRIPTION)!!,
 				creator!!.getPower(),
+				false,
 				MemberContainer().apply { addMember(creator!!, Rank.LEADER) },
 				RankContainer.create()
 			)

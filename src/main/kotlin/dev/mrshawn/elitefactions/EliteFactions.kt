@@ -3,10 +3,13 @@ package dev.mrshawn.elitefactions
 import dev.mrshawn.elitefactions.commands.FactionCommandManager
 import dev.mrshawn.elitefactions.commands.impl.factions.BaseCMD
 import dev.mrshawn.elitefactions.engine.factions.FactionManager
+import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.engine.factions.server.factions.ServerFactions
 import dev.mrshawn.mlib.chat.Chat
 import dev.mrshawn.mlib.selections.Selection
 import dev.mrshawn.mlib.utilities.events.EventUtils
+import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 
 class EliteFactions: JavaPlugin() {
@@ -38,6 +41,24 @@ class EliteFactions: JavaPlugin() {
 		fcm.registerCommand(BaseCMD())
 
 		fcm.registerCompletion("@factions") { FactionManager.getFactionNames() }
+		fcm.registerCompletion("@invited-players") {
+			val memberContainer = FPlayer.get(it)?.getFaction()?.getMemberContainer() ?: return@registerCompletion emptyList<String>()
+			memberContainer.getInvited().mapNotNull { uuid -> Bukkit.getPlayer(uuid)?.name }
+		}
+		fcm.registerCompletion("@pending-invites") {
+			if (it is Player) {
+				FactionManager.getFactions().filter { faction -> faction.isOpen() || faction.getMemberContainer().isInvited(it.uniqueId) }.map { faction ->  faction.getName() }
+			} else {
+				emptyList()
+			}
+		}
+		fcm.registerCompletion("@faction-members") {
+			if (it is Player) {
+				FPlayer.get(it).getFaction().getMemberContainer().getMembers().mapNotNull { uuid -> Bukkit.getOfflinePlayer(uuid).name }
+			} else {
+				emptyList()
+			}
+		}
 	}
 
 	private fun registerListeners() {

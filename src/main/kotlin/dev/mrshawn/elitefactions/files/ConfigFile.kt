@@ -21,7 +21,9 @@ enum class CValues(
 	FACTION_POWER_REGEN_AMOUNT("factions.power.regen.amount"),
 	FACTION_POWER_REGEN_INTERVAL("factions.power.regen.interval"),
 
-	FACTION_TOP_TRIM_EMPTY("factions.top.trim-empty");
+	FACTION_TOP_TRIM_EMPTY("factions.top.trim-empty"),
+
+	FACTION_INVITE_TIMEOUT("factions.invite.timeout");
 
 	override fun getPath(): String {
 		return path

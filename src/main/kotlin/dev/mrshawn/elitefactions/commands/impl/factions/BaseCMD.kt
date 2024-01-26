@@ -16,12 +16,17 @@ class BaseCMD: FactionCommand(
 			AdminCMD(),
 			HelpCMD(),
 			InfoCMD(),
+			WhoCMD(),
+			TopCMD(),
 			CreateCMD(),
 			DisbandCMD(),
-			TopCMD(),
-			WhoCMD(),
 			RenameCMD(),
-			DescriptionCMD()
+			DescriptionCMD(),
+			InviteCMD(),
+			UninviteCMD(),
+			JoinCMD(),
+			OpenCMD(),
+			KickCMD()
 		)
 	}
 

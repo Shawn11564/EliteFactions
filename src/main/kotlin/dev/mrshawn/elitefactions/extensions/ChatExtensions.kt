@@ -1,6 +1,7 @@
 package dev.mrshawn.elitefactions.extensions
 
 import dev.mrshawn.elitefactions.engine.factions.Faction
+import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.files.MessagesFile
 import dev.mrshawn.elitefactions.files.struct.PathEnum
 import dev.mrshawn.mlib.chat.Chat
@@ -30,6 +31,16 @@ fun Chat.tell(toWhom: CommandSender, message: PathEnum, vararg replacements: Any
 	}
 }
 
+fun Chat.tell(fPlayer: FPlayer, message: PathEnum) {
+	val player = fPlayer.getPlayer() ?: return
+	tell(player, message)
+}
+
+fun Chat.tell(fPlayer: FPlayer, message: PathEnum, vararg replacements: Any) {
+	val player = fPlayer.getPlayer() ?: return
+	tell(player, message, *replacements)
+}
+
 fun Chat.tell(faction: Faction, message: PathEnum) {
 	faction.getMemberContainer().getOnlineMembers().forEach { member ->
 		val player = Bukkit.getPlayer(member)
@@ -50,26 +61,13 @@ fun Chat.tell(toWhom: UUID, message: String) {
 }
 
 fun Chat.tell(toWhom: UUID, message: PathEnum) {
-	val originalMessage = MessagesFile.get(message)
 	val player = Bukkit.getPlayer(toWhom) ?: return
-	if (originalMessage is String) {
-		tell(player, originalMessage)
-	} else if (originalMessage is List<*>) {
-		for (msg in originalMessage) {
-			tell(player, msg.toString())
-		}
-	}
+	tell(player, message)
 }
 
 fun Chat.tell(toWhom: UUID, message: PathEnum, vararg replacements: Any) {
-	val originalMessage = MessagesFile.get(message)
-	if (originalMessage is String) {
-		tell(toWhom, doReplacements(originalMessage, *replacements))
-	} else if (originalMessage is List<*>) {
-		for (msg in originalMessage) {
-			tell(toWhom, doReplacements(msg.toString(), *replacements))
-		}
-	}
+	val player = Bukkit.getPlayer(toWhom) ?: return
+	tell(player, message, *replacements)
 }
 
 fun doReplacements(message: String, vararg replacements: Any): String {

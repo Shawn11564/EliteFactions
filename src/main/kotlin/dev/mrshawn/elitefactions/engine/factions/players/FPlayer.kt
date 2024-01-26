@@ -5,6 +5,7 @@ import dev.mrshawn.elitefactions.engine.factions.server.factions.ServerFactions
 import dev.mrshawn.elitefactions.files.CValues
 import dev.mrshawn.elitefactions.files.ConfigFile
 import org.bukkit.Bukkit
+import org.bukkit.OfflinePlayer
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
@@ -13,6 +14,7 @@ class FPlayer private constructor(
 	private val playerUUID: UUID
 ) {
 
+	private val offlinePlayer = Bukkit.getOfflinePlayer(playerUUID)
 	private var cachedPlayer: Player? = null
 	private var power: Double = ConfigFile.getDouble(CValues.FACTION_POWER_STARTING) ?: 10.0
 	private var faction: Faction? = null
@@ -45,6 +47,16 @@ class FPlayer private constructor(
 			}
 		}
 
+		fun get(targetName: String): FPlayer? {
+			// TODO: replace this with database call
+			val target = Bukkit.getOfflinePlayer(targetName)
+			return if (target.hasPlayedBefore()) {
+				get(target.uniqueId)
+			} else {
+				null
+			}
+		}
+
 		fun remove(uuid: UUID) {
 			cache.remove(uuid)
 		}
@@ -59,6 +71,10 @@ class FPlayer private constructor(
 		return faction ?: ServerFactions.WILDERNESS
 	}
 
+	fun hasFaction(): Boolean {
+		return !getFaction().isServerFaction()
+	}
+
 	fun setFaction(faction: Faction?) {
 		this.faction = faction
 	}
@@ -68,7 +84,15 @@ class FPlayer private constructor(
 	}
 
 	fun getPlayerName(): String {
-		return cachedPlayer?.name ?: "null"
+		return offlinePlayer.name ?: "null"
+	}
+
+	fun getOfflinePlayer(): OfflinePlayer {
+		return offlinePlayer
+	}
+
+	fun getPlayer(): Player? {
+		return cachedPlayer
 	}
 
 	fun getUUID(): UUID {

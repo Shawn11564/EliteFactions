@@ -16,3 +16,6 @@ factions:
   top:
     # Should we trim empty lines in the f top list? (i.e less than 10 factions exist)
     trim-empty: true
+  invite:
+    # how long in seconds should an invite last before expiring
+    timeout: 60

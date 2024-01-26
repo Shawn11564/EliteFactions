@@ -1,12 +1,31 @@
 package dev.mrshawn.elitefactions.engine.factions.players
 
 import dev.mrshawn.elitefactions.engine.factions.players.ranks.Rank
+import dev.mrshawn.elitefactions.extensions.cancelTask
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import java.util.*
 
 class MemberContainer {
 
 	private val members = HashMap<UUID, Rank>()
+	private val invited = HashMap<UUID, Int>()
+
+	fun invite(uuid: UUID, taskID: Int) {
+		invited[uuid] = taskID
+	}
+
+	fun uninvite(uuid: UUID) {
+		invited.remove(uuid).cancelTask()
+	}
+
+	fun isInvited(uuid: UUID): Boolean {
+		return invited.contains(uuid)
+	}
+
+	fun getInvited(): List<UUID> {
+		return invited.keys.toList()
+	}
 
 	fun getLeader(): UUID {
 		return members.filter { it.value == Rank.LEADER }.keys.first()
@@ -36,12 +55,20 @@ class MemberContainer {
 		members.remove(uuid)
 	}
 
+	fun removeMember(fPlayer: FPlayer) {
+		members.remove(fPlayer.getUUID())
+	}
+
 	fun getRank(uuid: UUID): Rank? {
 		return members[uuid]
 	}
 
+	fun getRank(player: Player): Rank? {
+		return getRank(player.uniqueId)
+	}
+
 	fun getRank(fPlayer: FPlayer): Rank? {
-		return members[fPlayer.getUUID()]
+		return getRank(fPlayer.getUUID())
 	}
 
 	fun setRank(uuid: UUID, rank: Rank) {

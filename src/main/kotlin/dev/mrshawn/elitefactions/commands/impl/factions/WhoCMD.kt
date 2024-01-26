@@ -52,7 +52,8 @@ class WhoCMD: FactionCommand(
 			10,
 			faction.getMemberContainer().getOnlineMembers().size,
 			faction.getPower(),
-			faction.getMaxPower()
+			faction.getMaxPower(),
+			faction.isOpen()
 		)
 	}
 

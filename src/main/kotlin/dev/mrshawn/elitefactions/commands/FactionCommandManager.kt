@@ -21,6 +21,7 @@ class FactionCommandManager: TabExecutor {
 	init {
 		// default completions
 		registerCompletion("@players") { Bukkit.getOnlinePlayers().map { it.name } }
+		registerCompletion("@true-false") { listOf("true", "false") }
 	}
 
 	fun registerCommand(command: FactionCommand) {

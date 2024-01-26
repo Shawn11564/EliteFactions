@@ -16,6 +16,13 @@ factions:
     faction-disbanded: "&eYour faction has been disbanded by {0}!"
     faction-renamed: "&eYour faction has been renamed to {0} by {1}!"
     description-changed: "&eYour faction description has been changed by {0}!"
+    player-invited: "&e{0} has been invited to your faction by {1}!"
+    player-uninvited: "&e{0} has been uninvited from your faction by {1}!"
+    player-joined: "&e{0} has joined your faction!"
+    faction-opened: "&e{0} has opened your faction!"
+    faction-closed: "&e{0} has closed your faction!"
+    player-kicked: "&e{0} has been kicked from your faction by {1}!"
+
 commands:
   messages:
     help:
@@ -32,6 +39,7 @@ commands:
       - "&bMembers Online: &7{5}"
       - "&7&m---------------------------------"
       - "&bPower: &7{6}/{7}"
+      - "&bOpen: &7{8}"
     server-faction-info:
       - "&7&m-----------&r &b{0} &7&m-----------"
       - "&b{1}"
@@ -53,6 +61,20 @@ commands:
         - "{9}"
         - "&7&m---------------------------------"
       entry: "&b{0}: Power- &7{1}/{2}"
+    invite:
+      sent: "&aYou have invited &b{0} &ato your faction!"
+      received: "&aYou have been invited to join &b{0}&a!"
+      timeout: "&cYour invite to &b{0} &chas expired!"
+    uninvite:
+      sender: "&aYou have uninvited &b{0} &afrom your faction!"
+      target: "&aYou have been uninvited from &b{0}&a!"
+    join: "&aYou have joined &b{0}&a!"
+    open:
+      true: "&aYour faction is now open!"
+      false: "&aYour faction is now closed!"
+    kick:
+      sender: "&aYou have kicked &b{0} &afrom your faction!"
+      target: "&aYou have been kicked from &b{0}&a!"
   usage:
     create: "&cUsage: /f create <name>"
     disband: "&cUsage: /f disband"
@@ -60,13 +82,26 @@ commands:
     description: "&cUsage: /f description <description>"
     info: "&cUsage: /f info <faction>"
     who: "&cUsage: /f who <player>"
+    invite: "&cUsage: /f invite <player>"
+    uninvite: "&cUsage: /f uninvite <player>"
+    join: "&cUsage: /f join <faction>"
+    open: "&cUsage: /f open [<true/false>]"
+    kick: "&cUsage: /f kick <player>"
   error:
+    player-not-found: "&cThat player could not be found!"
     faction-doesnt-exist: "&cA faction with the name {0} does not exist!"
     faction-already-exists: "&cA faction with that name already exists!"
     not-in-faction: "&cYou are not in a faction!"
+    target-in-faction: "&cThat player is already in a faction!"
+    already-invited: "&cYou have already invited that player!"
+    target-not-invited: "&cThat player has not been invited to your faction!"
+    not-invited: "&cYou have not been invited to that faction!"
+    not-member: "&cThat player is not in your faction!"
+    too-low-to-kick: "&cYour rank is too low to kick that player!"
   admin:
     messages:
       reload: "&aSuccessfully reloaded config.yml and messages.yml"
+
 preconditions:
   success: "&aSuccess!"
   error:
