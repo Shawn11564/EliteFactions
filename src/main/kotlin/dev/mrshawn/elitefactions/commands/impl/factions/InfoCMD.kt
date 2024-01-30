@@ -3,9 +3,10 @@ package dev.mrshawn.elitefactions.commands.impl.factions
 import dev.mrshawn.elitefactions.annotations.CommandAlias
 import dev.mrshawn.elitefactions.annotations.CommandCompletion
 import dev.mrshawn.elitefactions.annotations.CommandExecutor
+import dev.mrshawn.elitefactions.annotations.Optional
 import dev.mrshawn.elitefactions.commands.FactionCommand
 import dev.mrshawn.elitefactions.commands.enhancements.Preconditions
-import dev.mrshawn.elitefactions.engine.factions.FactionManager
+import dev.mrshawn.elitefactions.engine.factions.Faction
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.extensions.getPlayerName
 import dev.mrshawn.elitefactions.extensions.tell
@@ -21,40 +22,35 @@ class InfoCMD: FactionCommand(
 
 	@CommandCompletion("@factions")
 	@CommandExecutor
-	fun execute(sender: CommandSender, args: Array<String>) {
-		if (args.isEmpty() && sender !is Player) {
+	fun execute(sender: CommandSender, @Optional faction: Faction?) {
+		if (faction == null && sender !is Player) {
 			Chat.tell(sender, EMessages.CMD_INFO_USAGE)
 			return
 		}
 
-		val faction = if (args.isEmpty()) {
-			FPlayer.get(sender)?.getFaction()
-		} else {
-			FactionManager.getFaction(args[0])
-		}
+		val targetFaction = faction ?: FPlayer.get(sender)?.getFaction()
 
-		// faction can only be null if args are provided
-		if (faction == null) {
-			Chat.tell(sender, EMessages.CMD_ERROR_FACTION_DOESNT_EXIST, if (args.isEmpty()) "null" else args[0])
+		if (targetFaction == null) {
+			Chat.tell(sender, EMessages.CMD_ERROR_FACTION_DOESNT_EXIST)
 			return
 		}
 
-		if (faction.isServerFaction()) {
-			Chat.tell(sender, EMessages.CMD_SERVER_FACTION_INFO_MESSAGE, faction.getName(), faction.getDescription())
+		if (targetFaction.isServerFaction()) {
+			Chat.tell(sender, EMessages.CMD_SERVER_FACTION_INFO_MESSAGE, targetFaction.getName(), targetFaction.getDescription())
 			return
 		}
 
 		Chat.tell(sender,
 			EMessages.CMD_FACTION_INFO_MESSAGE,
-			faction.getName(),
-			faction.getDescription(),
-			faction.getMemberContainer().getLeader().getPlayerName(),
-			faction.getMemberContainer().getMembers().size,
+			targetFaction.getName(),
+			targetFaction.getDescription(),
+			targetFaction.getMemberContainer().getLeader().getPlayerName(),
+			targetFaction.getMemberContainer().getMembers().size,
 			10,
-			faction.getMemberContainer().getOnlineMembers().size,
-			faction.getPower(),
-			faction.getMaxPower(),
-			faction.isOpen()
+			targetFaction.getMemberContainer().getOnlineMembers().size,
+			targetFaction.getPower(),
+			targetFaction.getMaxPower(),
+			targetFaction.isOpen()
 		)
 	}
 

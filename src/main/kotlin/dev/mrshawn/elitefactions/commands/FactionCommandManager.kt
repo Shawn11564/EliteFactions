@@ -1,6 +1,7 @@
 package dev.mrshawn.elitefactions.commands
 
 import dev.mrshawn.elitefactions.annotations.CommandCompletion
+import dev.mrshawn.elitefactions.annotations.Optional
 import dev.mrshawn.elitefactions.commands.enhancements.ExecutionContext
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.exceptions.ContextResolverFailedException
@@ -95,8 +96,19 @@ class FactionCommandManager: TabExecutor {
 		return completion?.invoke(sender) ?: listOf()
 	}
 
-	private fun <T> parseContext(objType: Class<T>, sender: CommandSender, args: Array<String>): Any? {
-		return commandContexts[objType]?.invoke(sender, args)
+	private fun <T> parseContext(objType: Class<T>, sender: CommandSender, args: Array<String>, allowNull: Boolean = false): Any? {
+		if (args.isEmpty() && allowNull) {
+			return null
+		} else if (args.isEmpty()) {
+			throw ContextResolverFailedException()
+		}
+		val context = commandContexts[objType]?.invoke(sender, args)
+		if (context == null && allowNull) {
+			return null
+		} else if (context == null) {
+			throw ContextResolverFailedException()
+		}
+		return context
 	}
 
 	override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<String>): Boolean {
@@ -127,10 +139,10 @@ class FactionCommandManager: TabExecutor {
 						FPlayer::class.java -> FPlayer.get(sender)
 							?: throw ContextResolverFailedException(EMessages.PRECONDITIONS_ERROR_NOT_PLAYER)
 
-						else -> parseContext(param.type, sender, args.copyOfRange(index, args.size))
+						else -> parseContext(param.type, sender, args.copyOfRange(index, args.size), param.isAnnotationPresent(Optional::class.java))
 					}
 				} else {
-					parseContext(param.type, sender, args.copyOfRange(index, args.size))
+					parseContext(param.type, sender, args.copyOfRange(index, args.size), param.isAnnotationPresent(Optional::class.java))
 						?: throw ContextResolverFailedException()
 				}
 			}
