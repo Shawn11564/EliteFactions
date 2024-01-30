@@ -1,15 +1,15 @@
 package dev.mrshawn.elitefactions.commands.impl.factions
 
 import dev.mrshawn.elitefactions.annotations.CommandAlias
+import dev.mrshawn.elitefactions.annotations.CommandExecutor
 import dev.mrshawn.elitefactions.commands.FactionCommand
-import dev.mrshawn.elitefactions.commands.conditions.Preconditions
+import dev.mrshawn.elitefactions.commands.enhancements.Preconditions
 import dev.mrshawn.elitefactions.engine.factions.Faction
 import dev.mrshawn.elitefactions.engine.factions.FactionManager
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.extensions.tell
 import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.mlib.chat.Chat
-import org.bukkit.entity.Player
 
 @CommandAlias("create")
 class CreateCMD: FactionCommand(
@@ -20,28 +20,28 @@ class CreateCMD: FactionCommand(
 		.build()
 ) {
 
-	override fun execute(sender: Player, args: Array<String>) {
-		if (args.isEmpty()) {
-			Chat.tell(sender, EMessages.CMD_CREATE_USAGE)
-			return
-		}
-
-		if (FactionManager.isFaction(args[0])) {
-			Chat.tell(sender, EMessages.CMD_ERROR_FACTION_ALREADY_EXISTS)
+	@CommandExecutor
+	fun execute(fPlayer: FPlayer, factionName: String) {
+		if (FactionManager.isFaction(factionName)) {
+			Chat.tell(fPlayer, EMessages.CMD_ERROR_FACTION_ALREADY_EXISTS)
 			return
 		}
 
 		val faction = Faction.Factory()
-			.creator(FPlayer.get(sender))
-			.name(args[0])
+			.creator(fPlayer)
+			.name(factionName)
 			.build()
 
 		if (faction == null) {
-			Chat.tell(sender, "&cThere was an error creating your faction. Please try again.")
+			Chat.tell(fPlayer.getPlayer(), "&cThere was an error creating your faction. Please try again.")
 			return
 		}
 
-		Chat.tell(sender, EMessages.CMD_CREATE_MESSAGE, args[0])
+		Chat.tell(fPlayer, EMessages.CMD_CREATE_MESSAGE, factionName)
+	}
+
+	override fun getUsageMessage(): String {
+		return EMessages.CMD_CREATE_USAGE.getMessage()
 	}
 
 }

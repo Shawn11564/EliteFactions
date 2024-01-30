@@ -98,6 +98,8 @@ commands:
     not-invited: "&cYou have not been invited to that faction!"
     not-member: "&cThat player is not in your faction!"
     too-low-to-kick: "&cYour rank is too low to kick that player!"
+    not-a-number: "&cThat is not a number!"
+    not-a-boolean: "&cThat is not a boolean, please enter true or false!"
   admin:
     messages:
       reload: "&aSuccessfully reloaded config.yml and messages.yml"

@@ -19,6 +19,7 @@ object ServerFactions {
 		MessagesFile.getString(EMessages.FACTIONS_SAFEZONE_NAME)!!,
 		MessagesFile.getString(EMessages.FACTIONS_SAFEZONE_DESCRIPTION)!!,
 		Double.MAX_VALUE,
+		false,
 		MemberContainer(),
 		RankContainer().apply { Rank.entries.forEach { clearPermissions(it) } }
 	)
@@ -27,6 +28,7 @@ object ServerFactions {
 		MessagesFile.getString(EMessages.FACTIONS_WARZONE_NAME)!!,
 		MessagesFile.getString(EMessages.FACTIONS_WARZONE_DESCRIPTION)!!,
 		Double.MAX_VALUE,
+		false,
 		MemberContainer(),
 		RankContainer().apply { Rank.entries.forEach { clearPermissions(it) } }
 	)
@@ -35,6 +37,7 @@ object ServerFactions {
 		MessagesFile.getString(EMessages.FACTIONS_WILDERNESS_NAME)!!,
 		MessagesFile.getString(EMessages.FACTIONS_WILDERNESS_DESCRIPTION)!!,
 		Double.MAX_VALUE,
+		false,
 		MemberContainer(),
 		RankContainer().apply { Rank.entries.forEach { clearPermissions(it) } }
 	)

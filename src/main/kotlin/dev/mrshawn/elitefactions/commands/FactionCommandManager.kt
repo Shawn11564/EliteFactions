@@ -1,7 +1,10 @@
 package dev.mrshawn.elitefactions.commands
 
 import dev.mrshawn.elitefactions.annotations.CommandCompletion
-import dev.mrshawn.elitefactions.extensions.tell
+import dev.mrshawn.elitefactions.commands.enhancements.ExecutionContext
+import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
+import dev.mrshawn.elitefactions.exceptions.ContextResolverFailedException
+import dev.mrshawn.elitefactions.extensions.isCommandSender
 import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.mlib.chat.Chat
 import org.bukkit.Bukkit
@@ -17,11 +20,25 @@ class FactionCommandManager: TabExecutor {
 
 	private val commands = HashMap<List<String>, FactionCommand>()
 	private val commandCompletions: HashMap<String, (CommandSender) -> Collection<String>> = HashMap()
+	private val commandContexts: HashMap<Class<*>, (CommandSender, Array<String>) -> Any> = HashMap()
 
 	init {
 		// default completions
+		registerCompletion("@nothing") { listOf(" ") }
 		registerCompletion("@players") { Bukkit.getOnlinePlayers().map { it.name } }
-		registerCompletion("@true-false") { listOf("true", "false") }
+		registerCompletion("@boolean") { listOf("true", "false") }
+
+		// default contexts
+		registerContext(ExecutionContext::class.java) { sender, args -> ExecutionContext(sender, args) }
+		registerContext(Player::class.java) { _, args ->
+			Bukkit.getPlayer(args[0]) ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_PLAYER_NOT_FOUND, args[0])
+		}
+		registerContext(FPlayer::class.java) { sender, _ -> FPlayer.get(sender) ?: throw ContextResolverFailedException(EMessages.PRECONDITIONS_ERROR_NOT_PLAYER) }
+		registerContext(String::class.java) { _, args -> args[0] }
+		registerContext(Array<String>::class.java) { _, args -> args }
+		registerContext(Int::class.java) { _, args -> args[0].toIntOrNull() ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_NOT_A_NUMBER, args[0]) }
+		registerContext(Double::class.java) { _, args -> args[0].toDoubleOrNull() ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_NOT_A_NUMBER, args[0]) }
+		registerContext(Boolean::class.java) { _, args -> args[0].lowercase().toBooleanStrictOrNull() ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_NOT_A_BOOLEAN, args[0]) }
 	}
 
 	fun registerCommand(command: FactionCommand) {
@@ -61,6 +78,10 @@ class FactionCommandManager: TabExecutor {
 		commandCompletions[id] = completion
 	}
 
+	fun <T: Any> registerContext(clazz: Class<T>, resolver: (CommandSender, Array<String>) -> T) {
+		commandContexts[clazz] = resolver
+	}
+
 	private fun getCommand(cmdString: String): FactionCommand? {
 		val lowercase = cmdString.lowercase()
 		return commands.values.stream()
@@ -72,6 +93,10 @@ class FactionCommandManager: TabExecutor {
 	private fun parseCompletion(sender: CommandSender, completionID: String): Collection<String> {
 		val completion = commandCompletions[completionID]
 		return completion?.invoke(sender) ?: listOf()
+	}
+
+	private fun <T> parseContext(objType: Class<T>, sender: CommandSender, args: Array<String>): Any? {
+		return commandContexts[objType]?.invoke(sender, args)
 	}
 
 	override fun onCommand(sender: CommandSender, cmd: Command, label: String, args: Array<String>): Boolean {
@@ -87,21 +112,38 @@ class FactionCommandManager: TabExecutor {
 				break
 			}
 		}
-		// check if the command overrides the player execute method
-		val executeMethod = currentCommand?.javaClass?.getMethod("execute", Player::class.java, Array<String>::class.java)
-		if (executeMethod?.declaringClass == currentCommand?.javaClass && sender !is Player) {
-			Chat.tell(sender, EMessages.PRECONDITIONS_ERROR_NOT_PLAYER)
+
+		val parsedContext: List<Any?>?
+		try {
+			parsedContext = currentCommand?.getExecuteMethodParams()?.mapIndexed { index, param ->
+				// if the first param is CommandSender, Player, or FPlayer, handle it as the sender
+				// else, try to resolve the context
+				if (index == 0 && param.type.isCommandSender()) {
+					when (param.type) {
+						CommandSender::class.java -> sender
+						Player::class.java -> sender as? Player
+							?: throw ContextResolverFailedException(EMessages.PRECONDITIONS_ERROR_NOT_PLAYER)
+
+						FPlayer::class.java -> FPlayer.get(sender)
+							?: throw ContextResolverFailedException(EMessages.PRECONDITIONS_ERROR_NOT_PLAYER)
+
+						else -> parseContext(param.type, sender, args.copyOfRange(index, args.size))
+					}
+				} else {
+					parseContext(param.type, sender, args.copyOfRange(index, args.size))
+						?: throw ContextResolverFailedException()
+				}
+			}
+		} catch (ex: ContextResolverFailedException) {
+			Chat.tell(sender, currentCommand?.getUsageMessage())
 			return false
 		}
-		// check command preconditions
-		if (currentCommand == null) return true
-		val preconditions = currentCommand.getPreconditions().check(sender)
-		if (!preconditions.first) {
-			Chat.tell(sender, preconditions.second)
-			return false
+
+		if (!parsedContext.isNullOrEmpty()) {
+			currentCommand?.getExecuteMethod()?.invoke(currentCommand, *parsedContext.toTypedArray())
+		} else {
+			currentCommand?.getExecuteMethod()?.invoke(currentCommand)
 		}
-		// execute the command
-		currentCommand.execute(sender, if (args.isEmpty()) emptyArray() else args.copyOfRange(i, args.size))
 		return true
 	}
 
@@ -131,7 +173,7 @@ class FactionCommandManager: TabExecutor {
 		}
 
 		// Check if the execute method has the CommandCompletion annotation
-		val executeMethod = currentCommand?.javaClass?.getMethod("execute", CommandSender::class.java, Array<String>::class.java)
+		val executeMethod = currentCommand?.getExecuteMethod()
 		val commandCompletionAnnotation = executeMethod?.getAnnotation(CommandCompletion::class.java)
 		if (commandCompletionAnnotation != null) {
 			// parse completion

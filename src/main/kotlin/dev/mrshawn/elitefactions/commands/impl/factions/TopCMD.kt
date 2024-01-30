@@ -1,8 +1,9 @@
 package dev.mrshawn.elitefactions.commands.impl.factions
 
 import dev.mrshawn.elitefactions.annotations.CommandAlias
+import dev.mrshawn.elitefactions.annotations.CommandExecutor
 import dev.mrshawn.elitefactions.commands.FactionCommand
-import dev.mrshawn.elitefactions.commands.conditions.Preconditions
+import dev.mrshawn.elitefactions.commands.enhancements.Preconditions
 import dev.mrshawn.elitefactions.engine.factions.Faction
 import dev.mrshawn.elitefactions.engine.factions.FactionManager
 import dev.mrshawn.elitefactions.extensions.doReplacements
@@ -18,7 +19,8 @@ class TopCMD: FactionCommand(
 	Preconditions.permission("elitefactions.commands.top")
 ) {
 
-	override fun execute(sender: CommandSender, args: Array<String>) {
+	@CommandExecutor
+	fun execute(sender: CommandSender, args: Array<String>) {
 		val topFactions = FactionManager.getFactions().sortedByDescending { it.getPower() }
 
 		val listMessage = MessagesFile.get(EMessages.CMD_TOP_MESSAGE_LIST) as List<*>

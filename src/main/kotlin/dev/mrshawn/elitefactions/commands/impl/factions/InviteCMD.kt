@@ -2,8 +2,9 @@ package dev.mrshawn.elitefactions.commands.impl.factions
 
 import dev.mrshawn.elitefactions.annotations.CommandAlias
 import dev.mrshawn.elitefactions.annotations.CommandCompletion
+import dev.mrshawn.elitefactions.annotations.CommandExecutor
 import dev.mrshawn.elitefactions.commands.FactionCommand
-import dev.mrshawn.elitefactions.commands.conditions.Preconditions
+import dev.mrshawn.elitefactions.commands.enhancements.Preconditions
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.engine.factions.players.ranks.PermissibleAction
 import dev.mrshawn.elitefactions.extensions.runLater
@@ -25,7 +26,8 @@ class InviteCMD: FactionCommand(
 ) {
 
 	@CommandCompletion("@players")
-	override fun execute(sender: Player, args: Array<String>) {
+	@CommandExecutor
+	fun execute(sender: Player, args: Array<String>) {
 		if (args.isEmpty()) {
 			Chat.tell(sender, EMessages.CMD_INVITE_USAGE)
 			return
@@ -58,7 +60,6 @@ class InviteCMD: FactionCommand(
 			}
 		}).runLater((ConfigFile.getInt(CValues.FACTION_INVITE_TIMEOUT) ?: 60) * 20L)
 		memberContainer.invite(target.uniqueId, taskID)
-		targetFPlayer.addInvite(faction)
 		Chat.tell(sender, EMessages.CMD_INVITE_SENT_MESSAGE, target.name)
 		Chat.tell(target, EMessages.CMD_INVITE_RECEIVED_MESSAGE, faction.getName())
 		Chat.tell(faction, EMessages.FACTIONS_ALERTS_PLAYER_INVITED, target.name, sender.name)

@@ -75,6 +75,8 @@ enum class EMessages(
 	CMD_ERROR_NOT_INVITED("commands.error.not-invited"),
 	CMD_ERROR_NOT_MEMBER("commands.error.not-member"),
 	CMD_ERROR_TOO_LOW_TO_KICK("commands.error.too-low-to-kick"),
+	CMD_ERROR_NOT_A_NUMBER("commands.error.not-a-number"),
+	CMD_ERROR_NOT_A_BOOLEAN("commands.error.not-a-boolean"),
 
 	CMD_ADMIN_RELOAD_MESSAGE("commands.admin.messages.reload"),
 
@@ -82,11 +84,21 @@ enum class EMessages(
 	PRECONDITIONS_ERROR_NO_PERMISSION("preconditions.error.no-permission"),
 	PRECONDITIONS_ERROR_NOT_PLAYER("preconditions.error.not-player"),
 	PRECONDITIONS_ERROR_IN_FACTION("preconditions.error.in-faction"),
-	PRECONDITIONS_ERROR_NOT_IN_FACTION("preconditions.error.not-in-faction");
+	PRECONDITIONS_ERROR_NOT_IN_FACTION("preconditions.error.not-in-faction"),
+
+	PARAMETERS_ERROR_DEFAULT("parameters.error.default"),
+	PARAMETERS_ERROR_NOT_A_INT("parameters.error.not-a-int"),
+	PARAMETERS_ERROR_NOT_A_BOOLEAN("parameters.error.not-a-boolean"),
+	PARAMETERS_ERROR_NOT_A_FACTION("parameters.error.not-a-faction"),
+	PARAMETERS_ERROR_NOT_A_PLAYER("parameters.error.not-a-player");
 
 
 	override fun getPath(): String {
 		return path
+	}
+
+	fun getMessage(): String {
+		return MessagesFile.getString(this) ?: path
 	}
 
 }

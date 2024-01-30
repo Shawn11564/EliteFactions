@@ -95,7 +95,7 @@ class FPlayer private constructor(
 		return cachedPlayer
 	}
 
-	fun getUUID(): UUID {
+	fun getPlayerUUID(): UUID {
 		return playerUUID
 	}
 

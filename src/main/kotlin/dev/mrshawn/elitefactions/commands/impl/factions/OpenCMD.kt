@@ -2,8 +2,9 @@ package dev.mrshawn.elitefactions.commands.impl.factions
 
 import dev.mrshawn.elitefactions.annotations.CommandAlias
 import dev.mrshawn.elitefactions.annotations.CommandCompletion
+import dev.mrshawn.elitefactions.annotations.CommandExecutor
 import dev.mrshawn.elitefactions.commands.FactionCommand
-import dev.mrshawn.elitefactions.commands.conditions.Preconditions
+import dev.mrshawn.elitefactions.commands.enhancements.Preconditions
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.engine.factions.players.ranks.PermissibleAction
 import dev.mrshawn.elitefactions.extensions.tell
@@ -20,8 +21,9 @@ class OpenCMD: FactionCommand(
 		.build()
 ) {
 
-	@CommandCompletion("@true-false")
-	override fun execute(sender: Player, args: Array<String>) {
+	@CommandCompletion("@boolean")
+	@CommandExecutor
+	fun execute(sender: Player, args: Array<String>) {
 		val faction = FPlayer.get(sender).getFaction()
 		val open = if (args.isEmpty()) !faction.isOpen() else args[0].lowercase().toBooleanStrictOrNull()
 

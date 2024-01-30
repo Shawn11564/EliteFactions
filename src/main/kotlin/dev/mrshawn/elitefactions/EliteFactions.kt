@@ -2,9 +2,13 @@ package dev.mrshawn.elitefactions
 
 import dev.mrshawn.elitefactions.commands.FactionCommandManager
 import dev.mrshawn.elitefactions.commands.impl.factions.BaseCMD
+import dev.mrshawn.elitefactions.commands.impl.factions.TestCMD
+import dev.mrshawn.elitefactions.engine.factions.Faction
 import dev.mrshawn.elitefactions.engine.factions.FactionManager
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.engine.factions.server.factions.ServerFactions
+import dev.mrshawn.elitefactions.exceptions.ContextResolverFailedException
+import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.mlib.chat.Chat
 import dev.mrshawn.mlib.selections.Selection
 import dev.mrshawn.mlib.utilities.events.EventUtils
@@ -39,6 +43,7 @@ class EliteFactions: JavaPlugin() {
 		val fcm = FactionCommandManager()
 
 		fcm.registerCommand(BaseCMD())
+		fcm.registerCommand(TestCMD())
 
 		fcm.registerCompletion("@factions") { FactionManager.getFactionNames() }
 		fcm.registerCompletion("@invited-players") {
@@ -59,6 +64,10 @@ class EliteFactions: JavaPlugin() {
 				emptyList()
 			}
 		}
+
+		fcm.registerContext(Player::class.java) { _, args -> Bukkit.getPlayer(args[0]) ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_PLAYER_NOT_FOUND) }
+		fcm.registerContext(FPlayer::class.java) { _, args -> FPlayer.get(args[0]) ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_PLAYER_NOT_FOUND) }
+		fcm.registerContext(Faction::class.java) { _, args -> FactionManager.getFaction(args[0]) ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_FACTION_DOESNT_EXIST, args[0]) }
 	}
 
 	private fun registerListeners() {

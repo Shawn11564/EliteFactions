@@ -1,4 +1,4 @@
-package dev.mrshawn.elitefactions.commands.conditions
+package dev.mrshawn.elitefactions.commands.enhancements
 
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.engine.factions.players.ranks.PermissibleAction

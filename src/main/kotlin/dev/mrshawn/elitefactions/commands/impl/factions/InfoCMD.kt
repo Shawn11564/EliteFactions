@@ -2,8 +2,9 @@ package dev.mrshawn.elitefactions.commands.impl.factions
 
 import dev.mrshawn.elitefactions.annotations.CommandAlias
 import dev.mrshawn.elitefactions.annotations.CommandCompletion
+import dev.mrshawn.elitefactions.annotations.CommandExecutor
 import dev.mrshawn.elitefactions.commands.FactionCommand
-import dev.mrshawn.elitefactions.commands.conditions.Preconditions
+import dev.mrshawn.elitefactions.commands.enhancements.Preconditions
 import dev.mrshawn.elitefactions.engine.factions.FactionManager
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.extensions.getPlayerName
@@ -19,7 +20,8 @@ class InfoCMD: FactionCommand(
 ) {
 
 	@CommandCompletion("@factions")
-	override fun execute(sender: CommandSender, args: Array<String>) {
+	@CommandExecutor
+	fun execute(sender: CommandSender, args: Array<String>) {
 		if (args.isEmpty() && sender !is Player) {
 			Chat.tell(sender, EMessages.CMD_INFO_USAGE)
 			return
@@ -54,6 +56,10 @@ class InfoCMD: FactionCommand(
 			faction.getMaxPower(),
 			faction.isOpen()
 		)
+	}
+
+	override fun getUsageMessage(): String {
+		return EMessages.CMD_INFO_USAGE.getMessage()
 	}
 
 }

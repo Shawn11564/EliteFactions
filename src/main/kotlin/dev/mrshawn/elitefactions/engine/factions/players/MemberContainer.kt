@@ -36,7 +36,7 @@ class MemberContainer {
 	}
 
 	fun isMember(fPlayer: FPlayer): Boolean {
-		return members.contains(fPlayer.getUUID())
+		return members.contains(fPlayer.getPlayerUUID())
 	}
 
 	fun addMember(uuid: UUID, rank: Rank) {
@@ -44,11 +44,11 @@ class MemberContainer {
 	}
 
 	fun addMember(fPlayer: FPlayer) {
-		members[fPlayer.getUUID()] = Rank.MEMBER
+		members[fPlayer.getPlayerUUID()] = Rank.MEMBER
 	}
 
 	fun addMember(fPlayer: FPlayer, rank: Rank) {
-		members[fPlayer.getUUID()] = rank
+		members[fPlayer.getPlayerUUID()] = rank
 	}
 
 	fun removeMember(uuid: UUID) {
@@ -56,7 +56,7 @@ class MemberContainer {
 	}
 
 	fun removeMember(fPlayer: FPlayer) {
-		members.remove(fPlayer.getUUID())
+		members.remove(fPlayer.getPlayerUUID())
 	}
 
 	fun getRank(uuid: UUID): Rank? {
@@ -68,7 +68,7 @@ class MemberContainer {
 	}
 
 	fun getRank(fPlayer: FPlayer): Rank? {
-		return getRank(fPlayer.getUUID())
+		return getRank(fPlayer.getPlayerUUID())
 	}
 
 	fun setRank(uuid: UUID, rank: Rank) {
