@@ -28,7 +28,7 @@ class FPlayer private constructor(
 		private val cache = HashMap<UUID, FPlayer>()
 
 		fun get(uuid: UUID): FPlayer {
-			if (!Bukkit.getOfflinePlayer(uuid).hasPlayedBefore()) throw RuntimeException("Player with UUID $uuid has never played before!")
+			if (Bukkit.getPlayer(uuid) == null || !Bukkit.getOfflinePlayer(uuid).hasPlayedBefore()) throw RuntimeException("Player with UUID $uuid has never played before!")
 			if (!cache.containsKey(uuid)) {
 				cache[uuid] = FPlayer(uuid)
 			}

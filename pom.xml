@@ -17,7 +17,7 @@
         <shade.version>3.3.0</shade.version>
         <minecraft.api.version>1.20</minecraft.api.version>
         <minecraft.version>1.20.4-R0.1-SNAPSHOT</minecraft.version>
-        <mlib.version>0.0.132</mlib.version>
+        <mlib.version>0.0.196</mlib.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <url>https://mrshawn.dev/</url>

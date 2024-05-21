@@ -2,12 +2,13 @@ package dev.mrshawn.elitefactions.engine.factions.players.ranks
 
 enum class Rank(
 	private val displayName: String,
-	private val defaultPermissions: List<PermissibleAction>
+	private val defaultPermissions: List<PermissibleAction>,
+	private val weight: Int
 ) {
 
 	LEADER("Leader", listOf(
 		PermissibleAction.ALL
-	)),
+	), 4),
 	COLEADER("Co-Leader", listOf(
 		PermissibleAction.INVITE,
 		PermissibleAction.KICK,
@@ -16,15 +17,15 @@ enum class Rank(
 		PermissibleAction.DEMOTE,
 		PermissibleAction.CLAIM,
 		PermissibleAction.UNCLAIM
-	)),
+	), 3),
 	OFFICER("Officer", listOf(
 		PermissibleAction.INVITE,
 		PermissibleAction.KICK,
 		PermissibleAction.CLAIM,
 		PermissibleAction.UNCLAIM
-	)),
-	MEMBER("Member", emptyList()),
-	GUEST("Guest", emptyList());
+	), 2),
+	MEMBER("Member", emptyList(), 1),
+	GUEST("Guest", emptyList(), 0);
 
 	fun getDisplayName(): String {
 		return name
@@ -32,6 +33,22 @@ enum class Rank(
 
 	fun getDefaultPermissions(): List<PermissibleAction> {
 		return defaultPermissions
+	}
+
+	fun isAbove(rank: Rank): Boolean {
+		return weight > rank.weight
+	}
+
+	fun isAtOrAbove(rank: Rank): Boolean {
+		return weight >= rank.weight
+	}
+
+	fun isBelow(rank: Rank): Boolean {
+		return weight < rank.weight
+	}
+
+	fun isAtOrBelow(rank: Rank): Boolean {
+		return weight <= rank.weight
 	}
 
 }

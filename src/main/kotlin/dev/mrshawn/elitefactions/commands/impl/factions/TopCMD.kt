@@ -1,9 +1,6 @@
 package dev.mrshawn.elitefactions.commands.impl.factions
 
-import dev.mrshawn.elitefactions.annotations.CommandAlias
 import dev.mrshawn.elitefactions.annotations.CommandExecutor
-import dev.mrshawn.elitefactions.commands.FactionCommand
-import dev.mrshawn.elitefactions.commands.enhancements.Preconditions
 import dev.mrshawn.elitefactions.engine.factions.Faction
 import dev.mrshawn.elitefactions.engine.factions.FactionManager
 import dev.mrshawn.elitefactions.extensions.doReplacements
@@ -12,11 +9,16 @@ import dev.mrshawn.elitefactions.files.ConfigFile
 import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.elitefactions.files.MessagesFile
 import dev.mrshawn.mlib.chat.Chat
+import dev.mrshawn.mlib.commands.MCommand
+import dev.mrshawn.mlib.commands.annotations.CommandAlias
+import dev.mrshawn.mlib.commands.preconditions.PermissionPrecondition
 import org.bukkit.command.CommandSender
 
 @CommandAlias("top")
-class TopCMD: FactionCommand(
-	Preconditions.permission("elitefactions.commands.top")
+class TopCMD: MCommand(
+	listOf(
+		PermissionPrecondition("elitefactions.commands.top")
+	)
 ) {
 
 	@CommandExecutor

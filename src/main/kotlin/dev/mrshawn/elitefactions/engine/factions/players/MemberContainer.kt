@@ -59,15 +59,15 @@ class MemberContainer {
 		members.remove(fPlayer.getPlayerUUID())
 	}
 
-	fun getRank(uuid: UUID): Rank? {
-		return members[uuid]
+	fun getRank(uuid: UUID): Rank {
+		return members[uuid] ?: Rank.GUEST
 	}
 
-	fun getRank(player: Player): Rank? {
+	fun getRank(player: Player): Rank {
 		return getRank(player.uniqueId)
 	}
 
-	fun getRank(fPlayer: FPlayer): Rank? {
+	fun getRank(fPlayer: FPlayer): Rank {
 		return getRank(fPlayer.getPlayerUUID())
 	}
 

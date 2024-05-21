@@ -1,15 +1,17 @@
 package dev.mrshawn.elitefactions.commands.impl.factions
 
-import dev.mrshawn.elitefactions.annotations.CommandAlias
 import dev.mrshawn.elitefactions.annotations.CommandExecutor
-import dev.mrshawn.elitefactions.commands.FactionCommand
-import dev.mrshawn.elitefactions.commands.enhancements.Preconditions
 import dev.mrshawn.elitefactions.commands.impl.factions.admin.AdminCMD
+import dev.mrshawn.mlib.commands.MCommand
+import dev.mrshawn.mlib.commands.annotations.CommandAlias
+import dev.mrshawn.mlib.commands.preconditions.PermissionPrecondition
 import org.bukkit.command.CommandSender
 
 @CommandAlias("faction|f")
-class BaseCMD: FactionCommand(
-	Preconditions.permission("elitefactions.commands")
+class BaseCMD: MCommand(
+	listOf(
+		PermissionPrecondition("elitefactions.commands")
+	)
 ) {
 
 	init {
@@ -26,6 +28,7 @@ class BaseCMD: FactionCommand(
 			InviteCMD(),
 			UninviteCMD(),
 			JoinCMD(),
+			LeaveCMD(),
 			OpenCMD(),
 			KickCMD()
 		)

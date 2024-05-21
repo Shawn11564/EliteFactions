@@ -1,17 +1,19 @@
 package dev.mrshawn.elitefactions.commands.impl.factions
 
-import dev.mrshawn.elitefactions.annotations.CommandAlias
 import dev.mrshawn.elitefactions.annotations.CommandExecutor
-import dev.mrshawn.elitefactions.commands.FactionCommand
-import dev.mrshawn.elitefactions.commands.enhancements.Preconditions
 import dev.mrshawn.elitefactions.extensions.tell
 import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.mlib.chat.Chat
+import dev.mrshawn.mlib.commands.MCommand
+import dev.mrshawn.mlib.commands.annotations.CommandAlias
+import dev.mrshawn.mlib.commands.preconditions.PermissionPrecondition
 import org.bukkit.command.CommandSender
 
 @CommandAlias("help|?")
-class HelpCMD: FactionCommand(
-	Preconditions.permission("elitefactions.commands.help")
+class HelpCMD: MCommand(
+	listOf(
+		PermissionPrecondition("elitefactions.commands.help")
+	)
 ) {
 
 	companion object {

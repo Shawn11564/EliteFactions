@@ -1,5 +1,6 @@
 package dev.mrshawn.elitefactions.engine.factions
 
+import dev.mrshawn.elitefactions.engine.factions.claims.ClaimContainer
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.engine.factions.players.MemberContainer
 import dev.mrshawn.elitefactions.engine.factions.players.ranks.Rank
@@ -17,6 +18,7 @@ class Faction(
 	private var description: String,
 	private var power: Double,
 	private var isOpen: Boolean = false,
+	private val claimContainer: ClaimContainer,
 	private val memberContainer: MemberContainer,
 	private val rankContainer: RankContainer
 ) {
@@ -64,6 +66,10 @@ class Faction(
 		return isOpen
 	}
 
+	fun getClaimContainer(): ClaimContainer {
+		return claimContainer
+	}
+
 	fun getMemberContainer(): MemberContainer {
 		return memberContainer
 	}
@@ -90,6 +96,7 @@ class Faction(
 				MessagesFile.getString(EMessages.FACTIONS_DEFAULT_DESCRIPTION)!!,
 				creator!!.getPower(),
 				false,
+				ClaimContainer(),
 				MemberContainer().apply { addMember(creator!!, Rank.LEADER) },
 				RankContainer.create()
 			)

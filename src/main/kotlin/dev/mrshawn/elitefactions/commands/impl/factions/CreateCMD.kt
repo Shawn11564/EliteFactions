@@ -1,22 +1,23 @@
 package dev.mrshawn.elitefactions.commands.impl.factions
 
-import dev.mrshawn.elitefactions.annotations.CommandAlias
 import dev.mrshawn.elitefactions.annotations.CommandExecutor
-import dev.mrshawn.elitefactions.commands.FactionCommand
-import dev.mrshawn.elitefactions.commands.enhancements.Preconditions
+import dev.mrshawn.elitefactions.commands.enhancements.preconditions.notInFaction
 import dev.mrshawn.elitefactions.engine.factions.Faction
 import dev.mrshawn.elitefactions.engine.factions.FactionManager
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.extensions.tell
 import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.mlib.chat.Chat
+import dev.mrshawn.mlib.commands.MCommand
+import dev.mrshawn.mlib.commands.annotations.CommandAlias
+import dev.mrshawn.mlib.commands.preconditions.Precondition
 
 @CommandAlias("create")
-class CreateCMD: FactionCommand(
-	Preconditions.Builder()
+class CreateCMD: MCommand(
+	Precondition.Builder()
 		.hasPermission("elitefactions.commands.create")
-		.isPlayer(true)
-		.notInFaction(true)
+		.isPlayer()
+		.notInFaction()
 		.build()
 ) {
 

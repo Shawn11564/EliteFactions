@@ -1,21 +1,23 @@
 package dev.mrshawn.elitefactions.commands.impl.factions
 
-import dev.mrshawn.elitefactions.annotations.CommandAlias
 import dev.mrshawn.elitefactions.annotations.CommandCompletion
 import dev.mrshawn.elitefactions.annotations.CommandExecutor
-import dev.mrshawn.elitefactions.commands.FactionCommand
-import dev.mrshawn.elitefactions.commands.enhancements.Preconditions
+import dev.mrshawn.elitefactions.commands.enhancements.preconditions.hasFaction
+import dev.mrshawn.elitefactions.commands.enhancements.preconditions.hasPermissible
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.engine.factions.players.ranks.PermissibleAction
 import dev.mrshawn.elitefactions.extensions.tell
 import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.mlib.chat.Chat
+import dev.mrshawn.mlib.commands.MCommand
+import dev.mrshawn.mlib.commands.annotations.CommandAlias
+import dev.mrshawn.mlib.commands.preconditions.Precondition
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 @CommandAlias("uninvite")
-class UninviteCMD: FactionCommand(
-	Preconditions.Builder()
+class UninviteCMD: MCommand(
+	Precondition.Builder()
 		.hasPermission("elitefactions.commands.uninvite")
 		.hasPermissible(PermissibleAction.INVITE)
 		.hasFaction(true)
