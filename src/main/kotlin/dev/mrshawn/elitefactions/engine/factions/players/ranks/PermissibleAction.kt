@@ -14,6 +14,7 @@ enum class PermissibleAction(
 	RENAME("rename"),
 	CHANGE_DESCRIPTION("change description"),
 	CLAIM("claim"),
-	UNCLAIM("unclaim");
+	UNCLAIM("unclaim"),
+	SETHOME("set home");
 
 }

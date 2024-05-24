@@ -33,6 +33,7 @@ enum class EMessages(
 	FACTIONS_ALERTS_FACTION_OPENED("factions.alerts.faction-opened"),
 	FACTIONS_ALERTS_FACTION_CLOSED("factions.alerts.faction-closed"),
 	FACTIONS_ALERTS_PLAYER_KICKED("factions.alerts.player-kicked"),
+	FACTIONS_ALERTS_HOME_SET("factions.alerts.home-set"),
 
 	CMD_HELP_MESSAGE("commands.messages.help"),
 	CMD_FACTION_INFO_MESSAGE("commands.messages.faction-info"),
@@ -51,6 +52,8 @@ enum class EMessages(
 	CMD_OPEN_CLOSED_MESSAGE("commands.messages.open.closed"),
 	CMD_KICK_SENDER_MESSAGE("commands.messages.kick.sender"),
 	CMD_KICK_TARGET_MESSAGE("commands.messages.kick.target"),
+	CMD_HOME_SET_MESSAGE("commands.messages.home.set"),
+	CMD_HOME_TELEPORTED_MESSAGE("commands.messages.home.teleported"),
 
 	CMD_CREATE_USAGE("commands.usage.create"),
 	CMD_DISBAND_USAGE("commands.usage.disband"),
@@ -77,11 +80,19 @@ enum class EMessages(
 	CMD_ERROR_TOO_LOW_TO_KICK("commands.error.too-low-to-kick"),
 	CMD_ERROR_NOT_A_NUMBER("commands.error.not-a-number"),
 	CMD_ERROR_NOT_A_BOOLEAN("commands.error.not-a-boolean"),
+	CMD_ERROR_NO_ISLAND("commands.error.no-island"),
+	CMD_ERROR_NO_HOME("commands.error.no-home"),
+	CMD_ERROR_OUTSIDE_ISLAND("commands.error.outside-island"),
+
+	CMD_ADMIN_ERROR_NO_HOME("commands.admin.errors.no-home"),
+	CMD_ADMIN_ERROR_NO_ISLAND("commands.admin.errors.no-island"),
 
 	CMD_ADMIN_RELOAD_MESSAGE("commands.admin.messages.reload"),
+	CMD_ADMIN_HOME_MESSAGE("commands.admin.messages.home"),
 
 	PRECONDITIONS_SUCCESS("preconditions.success"),
 	PRECONDITIONS_ERROR_NO_PERMISSION("preconditions.error.no-permission"),
+	PRECONDITIONS_ERROR_NOT_ALLOWED("preconditions.error.not-allowed"),
 	PRECONDITIONS_ERROR_NOT_PLAYER("preconditions.error.not-player"),
 	PRECONDITIONS_ERROR_IN_FACTION("preconditions.error.in-faction"),
 	PRECONDITIONS_ERROR_NOT_IN_FACTION("preconditions.error.not-in-faction"),

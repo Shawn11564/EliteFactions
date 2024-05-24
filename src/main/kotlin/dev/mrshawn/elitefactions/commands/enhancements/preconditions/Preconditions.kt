@@ -3,6 +3,7 @@ package dev.mrshawn.elitefactions.commands.enhancements.preconditions
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.engine.factions.players.ranks.PermissibleAction
 import dev.mrshawn.elitefactions.engine.factions.players.ranks.Rank
+import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.mlib.commands.preconditions.Precondition
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -12,6 +13,13 @@ class HasFactionPrecondition(
 ): Precondition {
 	override fun check(commandSender: CommandSender): Boolean {
 		return commandSender is Player && FPlayer.get(commandSender).hasFaction() == value
+	}
+	override fun failMessage(): String {
+		return if (value) {
+			EMessages.PRECONDITIONS_ERROR_NOT_IN_FACTION.getMessage()
+		} else {
+			EMessages.PRECONDITIONS_ERROR_IN_FACTION.getMessage()
+		}
 	}
 }
 
@@ -23,6 +31,9 @@ class HasPermissible(
 			FPlayer.get(commandSender).getFaction().getMemberContainer().getRank(FPlayer.get(commandSender)) ?: Rank.GUEST,
 			permissibleAction
 		)
+	}
+	override fun failMessage(): String {
+		return EMessages.PRECONDITIONS_ERROR_NOT_ALLOWED.getMessage()
 	}
 }
 

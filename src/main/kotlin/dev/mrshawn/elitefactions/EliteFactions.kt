@@ -3,12 +3,14 @@ package dev.mrshawn.elitefactions
 import dev.mrshawn.elitefactions.commands.impl.factions.BaseCMD
 import dev.mrshawn.elitefactions.engine.factions.Faction
 import dev.mrshawn.elitefactions.engine.factions.FactionManager
+import dev.mrshawn.elitefactions.engine.factions.islands.worlds.BlankWorldCreator
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.engine.factions.server.factions.ServerFactions
-import dev.mrshawn.elitefactions.exceptions.ContextResolverFailedException
+import dev.mrshawn.elitefactions.engine.listeners.PlayerRespawnListener
 import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.mlib.chat.Chat
 import dev.mrshawn.mlib.commands.MCommandManager
+import dev.mrshawn.mlib.commands.exceptions.ContextResolverFailedException
 import dev.mrshawn.mlib.selections.Selection
 import dev.mrshawn.mlib.utilities.events.EventUtils
 import org.bukkit.Bukkit
@@ -26,6 +28,10 @@ class EliteFactions: JavaPlugin() {
 		Chat.setLogProvider(instance.name)
 
 		if (!dataFolder.exists()) dataFolder.mkdir()
+
+		if (!BlankWorldCreator.exists("fislands")) {
+			BlankWorldCreator.generateEmptyWorld("fislands")
+		}
 
 		initObjects()
 		registerListeners()
@@ -63,16 +69,19 @@ class EliteFactions: JavaPlugin() {
 			}
 		}
 
-		mcm.registerContext(Player::class.java) { _, args -> Bukkit.getPlayer(args[0]) ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_PLAYER_NOT_FOUND) }
-		mcm.registerContext(FPlayer::class.java) { _, args -> FPlayer.get(args[0]) ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_PLAYER_NOT_FOUND) }
-		mcm.registerContext(Faction::class.java) { _, args -> FactionManager.getFaction(args[0]) ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_FACTION_DOESNT_EXIST, args[0]) }
+		mcm.registerContext(Player::class.java) { _, args -> Bukkit.getPlayer(args[0]) ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_PLAYER_NOT_FOUND.getMessage()) }
+		mcm.registerContext(FPlayer::class.java) { _, args -> FPlayer.get(args[0]) ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_PLAYER_NOT_FOUND.getMessage()) }
+		mcm.registerContext(Faction::class.java) { _, args -> FactionManager.getFaction(args[0]) ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_FACTION_DOESNT_EXIST.getMessage(), args[0]) }
+
+		MCommandManager.addCommandSenderType(FPlayer::class.java)
+		mcm.registerSenderContext(FPlayer::class.java) { FPlayer.get(it) ?: throw ContextResolverFailedException(EMessages.CMD_ERROR_NOT_A_PLAYER.getMessage()) }
 	}
 
 	private fun registerListeners() {
 		Selection.register(this)
 		EventUtils.registerEvents(
 			this,
-
+			PlayerRespawnListener
 		)
 	}
 

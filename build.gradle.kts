@@ -5,6 +5,7 @@ plugins {
 
 group = "dev.mrshawn"
 version = "1.0.0"
+extra["apiVersion"] = "1.20"
 
 repositories {
 	mavenCentral()
@@ -16,7 +17,7 @@ repositories {
 dependencies {
 	implementation(kotlin("stdlib-jdk8"))
 	compileOnly("org.spigotmc:spigot-api:1.20.4-R0.1-SNAPSHOT")
-	implementation("dev.mrshawn:Mlib:0.0.196")
+	implementation("dev.mrshawn:Mlib:0.0.202")
 }
 
 tasks.withType<JavaCompile> {
@@ -26,6 +27,12 @@ tasks.withType<JavaCompile> {
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 	kotlinOptions.jvmTarget = "1.8"
+}
+
+tasks.processResources {
+	filesMatching("plugin.yml") {
+		expand(mapOf("version" to version, "apiVersion" to project.extra["apiVersion"], "name" to project.name))
+	}
 }
 
 tasks.named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {

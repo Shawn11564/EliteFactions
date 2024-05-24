@@ -1,6 +1,6 @@
 package dev.mrshawn.elitefactions.commands.impl.factions
 
-import dev.mrshawn.elitefactions.annotations.CommandExecutor
+import dev.mrshawn.mlib.commands.annotations.CommandExecutor
 import dev.mrshawn.elitefactions.commands.enhancements.preconditions.hasFaction
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
 import dev.mrshawn.elitefactions.engine.factions.players.ranks.Rank
