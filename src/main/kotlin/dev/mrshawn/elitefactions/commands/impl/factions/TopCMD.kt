@@ -1,6 +1,6 @@
 package dev.mrshawn.elitefactions.commands.impl.factions
 
-import dev.mrshawn.elitefactions.annotations.CommandExecutor
+import dev.mrshawn.mlib.commands.annotations.CommandExecutor
 import dev.mrshawn.elitefactions.engine.factions.Faction
 import dev.mrshawn.elitefactions.engine.factions.FactionManager
 import dev.mrshawn.elitefactions.extensions.doReplacements

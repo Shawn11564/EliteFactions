@@ -22,6 +22,7 @@ factions:
     faction-opened: "&e{0} has opened your faction!"
     faction-closed: "&e{0} has closed your faction!"
     player-kicked: "&e{0} has been kicked from your faction by {1}!"
+    home-set: "&e{0} has set the faction home!"
 
 commands:
   messages:
@@ -75,6 +76,9 @@ commands:
     kick:
       sender: "&aYou have kicked &b{0} &afrom your faction!"
       target: "&aYou have been kicked from &b{0}&a!"
+    home:
+      set: "&aYou have set your faction home!"
+      teleport: "&aYou have teleported to your faction home!"
   usage:
     create: "&cUsage: /f create <name>"
     disband: "&cUsage: /f disband"
@@ -92,6 +96,7 @@ commands:
     faction-doesnt-exist: "&cA faction with the name {0} does not exist!"
     faction-already-exists: "&cA faction with that name already exists!"
     not-in-faction: "&cYou are not in a faction!"
+    already-in-faction: "&cYou are already in a faction!"
     target-in-faction: "&cThat player is already in a faction!"
     already-invited: "&cYou have already invited that player!"
     target-not-invited: "&cThat player has not been invited to your faction!"
@@ -100,14 +105,23 @@ commands:
     too-low-to-kick: "&cYour rank is too low to kick that player!"
     not-a-number: "&cThat is not a number!"
     not-a-boolean: "&cThat is not a boolean, please enter true or false!"
+    no-island: "&cYour faction does not have an island!"
+    no-home: "&cYour faction does not have a home!"
+    outside-island: "&cYou must be on your faction's island to use this command!"
+    faction-doesnt-allow: "&cYour faction does not allow you to do this!"
   admin:
     messages:
       reload: "&aSuccessfully reloaded config.yml and messages.yml"
+      home: "&aYou have teleported to &b{0}&a's faction home!"
+    error:
+      no-home: "&cThat faction does not have a home!"
+      no-island: "&cThat faction does not have an island!"
 
 preconditions:
   success: "&aSuccess!"
   error:
     no-permission: "&cYou do not have permission to execute this command!"
+    not-allowed: "&cYour faction does not allow you to do that!"
     not-player: "&cYou must be a player to execute this command!"
     in-faction: "&cYou must leave your faction to execute this command!"
     not-in-faction: "&cYou must be in a faction to execute this command!"

@@ -23,7 +23,9 @@ enum class CValues(
 
 	FACTION_TOP_TRIM_EMPTY("factions.top.trim-empty"),
 
-	FACTION_INVITE_TIMEOUT("factions.invite.timeout");
+	FACTION_INVITE_TIMEOUT("factions.invite.timeout"),
+
+	FACTION_RESPAWN_AT_HOME("factions.respawn-at-home");
 
 	override fun getPath(): String {
 		return path

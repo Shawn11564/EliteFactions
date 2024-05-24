@@ -1,6 +1,5 @@
 package dev.mrshawn.elitefactions.commands.impl.factions
 
-import dev.mrshawn.elitefactions.annotations.CommandExecutor
 import dev.mrshawn.elitefactions.commands.enhancements.preconditions.notInFaction
 import dev.mrshawn.elitefactions.engine.factions.Faction
 import dev.mrshawn.elitefactions.engine.factions.FactionManager
@@ -10,6 +9,7 @@ import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.mlib.chat.Chat
 import dev.mrshawn.mlib.commands.MCommand
 import dev.mrshawn.mlib.commands.annotations.CommandAlias
+import dev.mrshawn.mlib.commands.annotations.CommandExecutor
 import dev.mrshawn.mlib.commands.preconditions.Precondition
 
 @CommandAlias("create")
@@ -31,6 +31,7 @@ class CreateCMD: MCommand(
 		val faction = Faction.Factory()
 			.creator(fPlayer)
 			.name(factionName)
+			.generateIsland(true)
 			.build()
 
 		if (faction == null) {

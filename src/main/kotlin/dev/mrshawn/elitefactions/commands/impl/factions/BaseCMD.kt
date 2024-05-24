@@ -1,9 +1,9 @@
 package dev.mrshawn.elitefactions.commands.impl.factions
 
-import dev.mrshawn.elitefactions.annotations.CommandExecutor
 import dev.mrshawn.elitefactions.commands.impl.factions.admin.AdminCMD
 import dev.mrshawn.mlib.commands.MCommand
 import dev.mrshawn.mlib.commands.annotations.CommandAlias
+import dev.mrshawn.mlib.commands.annotations.CommandExecutor
 import dev.mrshawn.mlib.commands.preconditions.PermissionPrecondition
 import org.bukkit.command.CommandSender
 
@@ -30,7 +30,9 @@ class BaseCMD: MCommand(
 			JoinCMD(),
 			LeaveCMD(),
 			OpenCMD(),
-			KickCMD()
+			KickCMD(),
+			HomeCMD(),
+			SetHomeCMD()
 		)
 	}
 

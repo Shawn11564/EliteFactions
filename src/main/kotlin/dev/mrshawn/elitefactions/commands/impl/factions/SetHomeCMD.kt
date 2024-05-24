@@ -1,6 +1,5 @@
 package dev.mrshawn.elitefactions.commands.impl.factions
 
-import dev.mrshawn.mlib.commands.annotations.CommandExecutor
 import dev.mrshawn.elitefactions.commands.enhancements.preconditions.hasFaction
 import dev.mrshawn.elitefactions.commands.enhancements.preconditions.hasPermissible
 import dev.mrshawn.elitefactions.engine.factions.players.FPlayer
@@ -10,31 +9,33 @@ import dev.mrshawn.elitefactions.files.EMessages
 import dev.mrshawn.mlib.chat.Chat
 import dev.mrshawn.mlib.commands.MCommand
 import dev.mrshawn.mlib.commands.annotations.CommandAlias
+import dev.mrshawn.mlib.commands.annotations.CommandExecutor
 import dev.mrshawn.mlib.commands.preconditions.Precondition
 
-@CommandAlias("description|desc")
-class DescriptionCMD: MCommand(
+@CommandAlias("sethome")
+class SetHomeCMD: MCommand(
 	Precondition.Builder()
-		.hasPermission("elitefactions.commands.description")
-		.hasPermissible(PermissibleAction.CHANGE_DESCRIPTION)
+		.isPlayer()
 		.hasFaction()
+		.hasPermission("elitefactions.commands.sethome")
+		.hasPermissible(PermissibleAction.SETHOME)
 		.build()
 ) {
 
 	@CommandExecutor
-	fun execute(fPlayer: FPlayer, args: Array<String>) {
-		if (args.isEmpty()) {
-			Chat.tell(fPlayer, EMessages.CMD_DESCRIPTION_USAGE)
+	fun execute(player: FPlayer) {
+		if (!player.getFaction().hasIsland()) {
+			Chat.tell(player, EMessages.CMD_ERROR_NO_ISLAND)
+			return
+		}
+		if (!player.getFaction().getIsland()!!.inBounds(player.getPlayer()!!.location)) {
+			Chat.tell(player, EMessages.CMD_ERROR_OUTSIDE_ISLAND)
 			return
 		}
 
-		val faction = fPlayer.getFaction()
-		faction.changeDescription(args.joinToString(" "))
-		Chat.tell(faction, EMessages.FACTIONS_ALERTS_DESCRIPTION_CHANGED, fPlayer.getPlayerName())
-	}
-
-	override fun getUsageMessage(): String {
-		return EMessages.CMD_DESCRIPTION_USAGE.getMessage()
+		player.getFaction().getIsland()!!.setHomeLocation(player.getPlayer()!!.location)
+		Chat.tell(player, EMessages.CMD_HOME_SET_MESSAGE)
+		Chat.tell(player.getFaction(), EMessages.FACTIONS_ALERTS_HOME_SET, player.getPlayer()?.name.toString())
 	}
 
 }

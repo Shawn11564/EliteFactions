@@ -19,3 +19,6 @@ factions:
   invite:
     # how long in seconds should an invite last before expiring
     timeout: 60
+  respawn-at-home:
+    # whether to respawn players at their faction home
+    enabled: true
